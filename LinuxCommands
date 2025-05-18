@@ -1,0 +1,183 @@
+Linux Commands:
+------------------------------------
+For root access in terminal:
+sudo -i  
+------------------------------------
+for installation in redhat server:
+yum install telnet 
+-----------------------------------------
+Amazon Store to download :
+amazon-linux-extras example : mariadb10.5
+-------------------------------------------
+To create USer and grant access in RDS.
+CREATE USER 'reportuser'@'%' IDENTIFIED BY 'hgRt^gtgf65';
+GRANT CREATE, INSERT, SELECT, UPDATE ON *.* TO 'aditya'@'%' IDENTIFIED BY '@dity@!!23#$';
+-------------------------------------------------------------------
+all access Grant in RDS:
+ 
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER ON *.* TO 'admin'@'%' IDENTIFIED BY 'eboa%rd*ms9ql';
+ 
+GRANT ALL PRIVILEGES ON '%'.* TO 'reportuser'@'%' IDENTIFIED BY 'hgRt^gtgf65';
+ 
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, LOAD FROM S3, SELECT INTO S3 ON *.* TO 'reportuser'@'%' WITH GRANT OPTION;
+-------------------------`-------------------------------------------------------------------
+#list all databases
+show databases;
+------------------------------------------------------------------------
+#list user grants
+show grants for 'user'@'%';
+-----------------------------------------------------------------------
+#check size of database
+SELECT table_schema "DB_Name",
+ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) "DB Size in MB"
+FROM information_schema.tables
+GROUP BY table_schema;
+ -------------------------------------------------------
+#create database before restore with dump
+create database aakash_uat_20042020;
+---------------------------------------------------
+#take DB backup (dump)
+mysqldump -h aakashantheprod.cvki98p6oq1g.ap-south-1.rds.amazonaws.com -u Aakashantheprod --routines --events -p aakashanthe > aakashanthe.sql
+--------------------------------------------------------------------------
+#restore database
+mysqldump -h  aakash-preprod-database.cvki98p6oq1g.ap-south-1.rds.amazonaws.com -u Aakashkell -p aakash_uat_20042020 < aakash_prod.sql
+ 
+mysqldump -h localhost -u root -p anthe_sit < anthe_uat.sql
+or use database and source db name;
+ 
+mysqldump -h iffcoprod-rds-new.cys4pdtjljvv.ap-south-1.rds.amazonaws.com -u admin -p --routines --single-transaction  > magento2Uat_20201008.sql
+-----------------------------------------------------------------------------------------------------------
+               Check running query & kill in RDS:
+show processlist;
+show status like 'Conn%';
+ 
+CALL mysql.rds_kill(thread-ID)
+CALL mysql.rds_kill_query(thread-ID)
+ 
+show processlist;
+ 
+select concat('KILL ',id,';') from information_schema.processlist where user='dsadbuser' and command='Sleep';
+ 
+select concat('KILL ',id,';') from information_schema.processlist where user='dsadbuser' and time > 200 into outfile '/tmp/a.txt'; mysql> source /tmp/a.txt;
+--------------------------------------------------------------------------------------------------------------------
+----------------------------------User Management -------------------------
+CREATE USER 'adfuser'@'10.60.0.0/16' IDENTIFIED BY 'aDf#2022!';
+ 
+ALTER USER 'username' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+ 
+ALTER USER 'iffcob' IDENTIFIED BY 'Win2021@nksf$';
+FLUSH PRIVILEGES;
+-----------------------------------------------------------------
+SET PASSWORD FOR 'user'@'localhost' = 'userpassword';
+
+CREATE USER 'appuser'@'%' IDENTIFIED BY 'hgRt^gtgf65';
+GRANT CREATE, INSERT, SELECT, UPDATE ON *.* TO 'aditya'@'%' IDENTIFIED BY '@dity@!!23#$';
+-------------------------------------------------------------------------------------
+command To upload file in S3 bucket.
+aws s3 cp test.log s3://cn-uat-ui/
+-----------------------------------------------------------
+To use maria Db in Linux:
+mysql -u admin -p -h cn-uat-rds.cluster-c6qz95qwqu6c.ap-south-1.rds.amazonaws.com
+-----------------------------------------
+ basic commands to run my Sql :
+Note that all text commands must be first on line and end with ';'
+?         (\?) Synonym for `help'.
+clear     (\c) Clear the current input statement.
+connect   (\r) Reconnect to the server. Optional arguments are db and host.
+delimiter (\d) Set statement delimiter.
+edit      (\e) Edit command with $EDITOR.
+ego       (\G) Send command to MariaDB server, display result vertically.
+exit      (\q) Exit mysql. Same as quit.
+go        (\g) Send command to MariaDB server.
+help      (\h) Display this help.
+nopager   (\n) Disable pager, print to stdout.
+notee     (\t) Don't write into outfile.
+pager     (\P) Set PAGER [to_pager]. Print the query results via PAGER.
+print     (\p) Print current command.
+prompt    (\R) Change your mysql prompt.
+quit      (\q) Quit mysql.
+rehash    (\#) Rebuild completion hash.
+source    (\.) Execute an SQL script file. Takes a file name as an argument.
+status    (\s) Get status information from the server.MySQL [(none)]> show grants for appuser;
+system    (\!) Execute a system shell command.
+tee       (\T) Set outfile [to_outfile]. Append everything into given outfile.
+use       (\u) Use another database. Takes database name as argument.
+charset   (\C) Switch to another charset. Might be needed for processing binlog with multi-byte charsets.
+warnings  (\W) Show warnings after every statement.
+nowarning (\w) Don't show warnings after every statement.
+----------------------------------------------------------------------------------------
+for checking the permission in linux:
+MySQL [(none)]> show grants for appuser;
+-------------------------------------------------------
+for granting all privileges:
+MySQL [(none)]> GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, LOAD FROM S3, SELECT INTO S3 ON *.* TO 'appuser'@'%' WITH GRANT OPTION;
+---------------------------------------------------------------------------------------------------------
+Restart command:
+docker run -d --restart
+
+--------------------------------------------------
+Aadhar APi check command:
+### send otp to 
+
+curl --location 'https://middleware.capriglobal.in/utility/validate/document' \
+--header 'Content-Type: application/json' \
+--data '{
+  "type": "aadhar",
+  "number": "376390804644",
+  "user_name": "ayan",
+  "caseId": "dsa-app",
+  "otp": ""
+}'
+ 
+### verify
+curl --location 'https://middleware.capriglobal.in/utility/verify/aadhar' \
+--header 'Content-Type: application/json' \
+--data '{
+  "type": "aadhar",
+  "number": "771747953437",
+  "user_name": "Jaspreet",
+  "caseId": "dsa-app",
+  "otp": "895783"
+}'
+-----------------------------------------------------------
+TO check whether the environment is working:
+ conda info --envs
+
+------------------------------------------------
+to activate the conda service:
+conda activate pytorch_p38
+
+----------------------------------
+to switch user in linux from root to ubuntu and vice versa:
+su - ubuntu
+
+-----------------------------------------------
+to check the whether the port is working or not:
+ps -ef |grep 9092{port}  -- where ps is processing id and -ef 
+----------------------------------
+TO kill the port services :
+kill -9 [port no]
+-----------------------------------
+to again start the service with port:
+sh -x  [service name]
+-----------------------------------------------------------------
+to enable service in Amazon Linux Extras:
+amazon-linux-extras enable [Filename]
+--------------------------------------------------
+Aws configure:
+aws configure
+----------------------------------
+to upload file in S3 via cli:
+aws s3 cp
+------------------------------------
+o view file in terminal:
+cat .bash_aliases
+--------------------------------------
+Check the docker file running:
+docker ps -a
+-----------------------------
+To move files from one path to current directory:
+ mv ~/Downloads/cn_team_accessKeys.csv .
+ -----------------------------------------------
+ 

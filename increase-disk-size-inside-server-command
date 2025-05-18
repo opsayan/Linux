@@ -1,0 +1,4 @@
+#to increase disk size inside server command
+
+sudo growpart /dev/nvme0n1
+sudo resize2fs /dev/nvme0n1p with side partition number
